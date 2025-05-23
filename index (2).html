@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Roof Area Calculator</title>
+   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          animation: {
+            'float': 'float 6s ease-in-out infinite',
+            'pulse-glow': 'pulse-glow 2s ease-in-out infinite alternate',
+            'slide-in': 'slide-in 0.5s ease-out',
+            'bounce-in': 'bounce-in 0.6s ease-out'
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-10px)' }
+            },
+            'pulse-glow': {
+              '0%': { boxShadow: '0 0 20px rgba(59, 130, 246, 0.4)' },
+              '100%': { boxShadow: '0 0 40px rgba(59, 130, 246, 0.8)' }
+            },
+            'slide-in': {
+              '0%': { opacity: '0', transform: 'translateX(-20px)' },
+              '100%': { opacity: '1', transform: 'translateX(0)' }
+            },
+            'bounce-in': {
+              '0%': { opacity: '0', transform: 'scale(0.8)' },
+              '50%': { transform: 'scale(1.05)' },
+              '100%': { opacity: '1', transform: 'scale(1)' }
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .grid-pattern {
+      background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+    }
+    
+    .glass-effect {
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #60a5fa, #34d399);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-indigo-950 grid-pattern">
+  <!-- Header -->
+  <div class="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 shadow-2xl">
+    <div class="container mx-auto px-4 py-6">
+      <div class="flex items-center justify-center space-x-3">
+        <div class="text-4xl animate-float">🏗️</div>
+        <h1 class="text-2xl md:text-3xl font-bold text-white text-center">
+          Roof Area Calculator
+        </h1>
+        <div class="text-4xl animate-float" style="animation-delay: 0.5s">🏠</div>
+      </div>
+      <p class="text-center text-blue-100 mt-2 text-sm md:text-base">
+        Professional roofing estimation tool
+      </p>
+    </div>
+  </div>
+
+  <!-- Main Container -->
+  <div class="container mx-auto px-4 py-8 max-w-4xl">
+    <div class="glass-effect bg-white/10 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 p-6 md:p-8 animate-bounce-in">
+      
+      <!-- Main Roof Section -->
+      <div class="mb-8">
+        <div class="flex items-center space-x-3 mb-6">
+          <div class="text-3xl">🏘️</div>
+          <h2 class="text-xl md:text-2xl font-bold gradient-text">Main Roof Dimensions</h2>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-2">
+            <label class="block text-blue-200 font-semibold text-sm md:text-base">
+              📏 Length (ft or in)
+            </label>
+            <input 
+              type="text" 
+              id="length" 
+              placeholder="e.g., 15 or 180in"
+              class="w-full px-4 py-3 bg-slate-800/80 border border-blue-400/50 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-300 hover:border-blue-400/70 hover:bg-slate-700/80"
+            />
+          </div>
+          
+          <div class="space-y-2">
+            <label class="block text-blue-200 font-semibold text-sm md:text-base">
+              📐 Width (ft or in)
+            </label>
+            <input 
+              type="text" 
+              id="width" 
+              placeholder="e.g., 10 or 120in"
+              class="w-full px-4 py-3 bg-slate-800/80 border border-blue-400/50 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-300 hover:border-blue-400/70 hover:bg-slate-700/80"
+            />
+          </div>
+        </div>
+        
+        <div class="mt-6">
+          <label class="block text-blue-200 font-semibold text-sm md:text-base mb-2">
+            💰 Price per sq ft (₹)
+          </label>
+          <input 
+            type="number" 
+            id="price" 
+            placeholder="Enter price per square foot"
+            class="w-full px-4 py-3 bg-slate-800/80 border border-blue-400/50 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-300 hover:border-blue-400/70 hover:bg-slate-700/80"
+          />
+        </div>
+      </div>
+
+      <!-- Extensions Section -->
+      <div class="mb-8">
+        <div class="flex items-center justify-between mb-6">
+          <div class="flex items-center space-x-3">
+            <div class="text-3xl">🏗️</div>
+            <h3 class="text-xl md:text-2xl font-bold gradient-text">Extensions (Barje)</h3>
+          </div>
+          <button 
+            onclick="addBarja()" 
+            class="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white px-4 py-2 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center space-x-2"
+          >
+            <span class="text-lg">➕</span>
+            <span class="hidden sm:inline">Add Extension</span>
+            <span class="sm:hidden">Add</span>
+          </button>
+        </div>
+        
+        <div id="barja-container" class="space-y-4"></div>
+      </div>
+
+      <!-- Calculate Button -->
+      <div class="text-center mb-8">
+        <button 
+          onclick="calculateTotalArea()" 
+          class="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white px-8 py-4 rounded-2xl font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-2xl hover:shadow-3xl animate-pulse-glow"
+        >
+          🧮 Calculate Total Area
+        </button>
+      </div>
+
+      <!-- Output Section -->
+      <div id="output-container" class="hidden">
+        <div class="bg-gradient-to-r from-slate-800/90 to-slate-900/90 rounded-2xl p-6 border border-blue-400/30 shadow-2xl">
+          <div class="flex items-center space-x-3 mb-4">
+            <div class="text-3xl">📊</div>
+            <h4 class="text-xl font-bold gradient-text">Calculation Results</h4>
+          </div>
+          <div id="output" class="text-blue-100 font-mono text-sm md:text-base whitespace-pre-wrap"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-slate-900/50 mt-12 py-6">
+    <div class="container mx-auto px-4 text-center">
+      <p class="text-slate-300 text-sm">
+        🏗️ Professional Roofing Calculator | Built for Construction Excellence
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    let barjaCounter = 0;
+
+    function addBarja() {
+      const container = document.getElementById('barja-container');
+      const div = document.createElement('div');
+      div.className = 'barja-input bg-slate-800/60 p-4 rounded-xl border border-slate-600/50 hover:border-blue-400/50 transition-all duration-300 animate-slide-in';
+      div.innerHTML = `
+        <div class="flex items-center space-x-3 mb-3">
+          <div class="text-2xl">🔧</div>
+          <h5 class="text-white font-semibold">Extension ${++barjaCounter}</h5>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-blue-200 text-sm font-medium mb-1">Length</label>
+            <input 
+              type="text" 
+              placeholder="ft or in" 
+              class="barja-length w-full px-3 py-2 bg-slate-700/80 border border-slate-500 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 hover:bg-slate-600/80"
+            />
+          </div>
+          <div>
+            <label class="block text-blue-200 text-sm font-medium mb-1">Width</label>
+            <input 
+              type="text" 
+              placeholder="ft or in" 
+              class="barja-width w-full px-3 py-2 bg-slate-700/80 border border-slate-500 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 hover:bg-slate-600/80"
+            />
+          </div>
+        </div>
+        <button 
+          onclick="removeBarja(this)" 
+          class="mt-3 bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 shadow-lg"
+        >
+          <span>🗑️</span>
+          <span>Remove</span>
+        </button>
+      `;
+      container.appendChild(div);
+    }
+
+    function removeBarja(button) {
+      button.parentElement.remove();
+      // Renumber remaining extensions
+      const extensions = document.querySelectorAll('.barja-input h5');
+      extensions.forEach((h5, index) => {
+        h5.textContent = `Extension ${index + 1}`;
+      });
+      barjaCounter = extensions.length;
+    }
+
+    function parseFeet(value) {
+      if (typeof value === 'string' && value.toLowerCase().includes('in')) {
+        const inches = parseFloat(value);
+        return isNaN(inches) ? null : inches / 12;
+      } else {
+        const feet = parseFloat(value);
+        return isNaN(feet) ? null : feet;
+      }
+    }
+
+    function calculateTotalArea() {
+      const lengthInput = document.getElementById('length');
+      const widthInput = document.getElementById('width');
+      const priceInput = document.getElementById('price');
+      
+      const length = parseFeet(lengthInput.value);
+      const width = parseFeet(widthInput.value);
+      const price = parseFloat(priceInput.value);
+
+      // Reset error states
+      [lengthInput, widthInput].forEach(input => {
+        input.classList.remove('border-red-500', 'focus:ring-red-400');
+        input.classList.add('border-blue-400/50', 'focus:ring-blue-400');
+      });
+
+      if (!length || !width || length <= 0 || width <= 0) {
+        [lengthInput, widthInput].forEach(input => {
+          if (!parseFeet(input.value) || parseFeet(input.value) <= 0) {
+            input.classList.remove('border-blue-400/50', 'focus:ring-blue-400');
+            input.classList.add('border-red-500', 'focus:ring-red-400');
+          }
+        });
+        showOutput('⚠️ Please enter valid positive main roof dimensions.', true);
+        return;
+      }
+
+      let totalArea = length * width;
+      const barjaInputs = document.querySelectorAll('.barja-input');
+      const barjaPairs = new Set();
+      let duplicates = false;
+      let barjaDetails = [];
+
+      barjaInputs.forEach((div, index) => {
+        const lenInput = div.querySelector('.barja-length');
+        const widInput = div.querySelector('.barja-width');
+        const l = parseFeet(lenInput.value);
+        const w = parseFeet(widInput.value);
+
+        // Reset error states
+        [lenInput, widInput].forEach(input => {
+          input.classList.remove('border-red-500', 'focus:ring-red-400');
+          input.classList.add('border-slate-500', 'focus:ring-blue-400');
+        });
+
+        if (l && w && l > 0 && w > 0) {
+          const key = `${l.toFixed(2)}x${w.toFixed(2)}`;
+          if (barjaPairs.has(key)) {
+            [lenInput, widInput].forEach(input => {
+              input.classList.remove('border-slate-500', 'focus:ring-blue-400');
+              input.classList.add('border-red-500', 'focus:ring-red-400');
+            });
+            duplicates = true;
+          } else {
+            barjaPairs.add(key);
+            totalArea += l * w;
+            barjaDetails.push(`Extension ${index + 1}: ${l.toFixed(1)} × ${w.toFixed(1)} = ${(l * w).toFixed(2)} sq ft`);
+          }
+        } else if (lenInput.value || widInput.value) {
+          if ((l && l <= 0) || (w && w <= 0)) {
+            showOutput('⚠️ Extension dimensions must be positive.', true);
+            return;
+          }
+        }
+      });
+
+      if (duplicates) {
+        showOutput('⚠️ Duplicate extensions detected. Please remove or correct them.', true);
+        return;
+      }
+
+      const mainArea = length * width;
+      const extensionArea = totalArea - mainArea;
+      const totalCost = isNaN(price) || price < 0 ? 0 : totalArea * price;
+
+      let result = `🏠 Main Roof: ${length.toFixed(1)} × ${width.toFixed(1)} = ${mainArea.toFixed(2)} sq ft\n\n`;
+      
+      if (barjaDetails.length > 0) {
+        result += `🔧 Extensions:\n${barjaDetails.join('\n')}\n`;
+        result += `📐 Total Extension Area: ${extensionArea.toFixed(2)} sq ft\n\n`;
+      }
+      
+      result += `📊 TOTAL AREA: ${totalArea.toFixed(2)} sq ft`;
+      
+      if (!isNaN(price) && price > 0) {
+        result += `\n\n💰 Cost Calculation:\n`;
+        result += `   Rate: ₹${price.toFixed(2)} per sq ft\n`;
+        result += `   Total Cost: ₹${totalCost.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+      }
+
+      showOutput(result, false);
+    }
+
+    function showOutput(text, isError) {
+      const outputContainer = document.getElementById('output-container');
+      const output = document.getElementById('output');
+      
+      output.textContent = text;
+      outputContainer.className = isError 
+        ? 'animate-bounce-in bg-gradient-to-r from-red-800/90 to-red-900/90 rounded-2xl p-6 border border-red-400/30 shadow-2xl'
+        : 'animate-bounce-in bg-gradient-to-r from-slate-800/90 to-slate-900/90 rounded-2xl p-6 border border-blue-400/30 shadow-2xl';
+      
+      outputContainer.classList.remove('hidden');
+      outputContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    // Add some sample data on load for demo
+    document.addEventListener('DOMContentLoaded', function() {
+      // Uncomment below lines to add sample data
+      // document.getElementById('length').value = '25';
+      // document.getElementById('width').value = '20';
+      // document.getElementById('price').value = '150';
+    });
+  </script>
+</body>
+</html>
